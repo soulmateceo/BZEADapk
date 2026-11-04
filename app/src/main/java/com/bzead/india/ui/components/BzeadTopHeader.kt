@@ -18,10 +18,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -58,38 +56,73 @@ fun BzeadTopHeader(
             .fillMaxWidth()
             .background(BzeadHeaderNavy)
             .statusBarsPadding()
-            .padding(bottom = 10.dp)
+            .padding(bottom = 2.dp)
             .testTag("bzead_top_header")
     ) {
-        // Top Bar: Brand logo + Wishlist Icon
+        // Ultra-Compact Single Row: Logo + Search Bar + Wishlist
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
+                .padding(horizontal = 10.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Logo image mark only
+            // Compact Logo Mark
             Box(
                 modifier = Modifier
-                    .size(38.dp)
+                    .size(32.dp)
                     .clip(CircleShape)
                     .background(Color.White)
-                    .padding(4.dp)
+                    .padding(2.dp)
                     .clickable { onCategoryClick("All") },
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
                     model = BZEAD_LOGO_URL,
                     contentDescription = "Bzead Logo Header",
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
 
-            // Wishlist Icon (Cart removed from top header)
+            // Compact Search Input
+            Surface(
+                onClick = onSearchClick,
+                shape = RoundedCornerShape(10.dp),
+                color = Color.White,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(36.dp)
+                    .testTag("header_search_bar")
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
+                        tint = Color(0xFF64748B),
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = "Search products, brands...",
+                        fontSize = 12.sp,
+                        color = Color(0xFF94A3B8),
+                        maxLines = 1,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+
+            // Wishlist Button
             IconButton(
                 onClick = onWishlistClick,
-                modifier = Modifier.testTag("header_wishlist_button")
+                modifier = Modifier
+                    .size(34.dp)
+                    .testTag("header_wishlist_button")
             ) {
                 BadgedBox(
                     badge = {
@@ -107,69 +140,34 @@ fun BzeadTopHeader(
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = "Wishlist",
                         tint = Color.White,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             }
         }
-
-        // Search Input Bar
-        Surface(
-            onClick = onSearchClick,
-            shape = RoundedCornerShape(12.dp),
-            color = Color.White,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .height(46.dp)
-                .testTag("header_search_bar")
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null,
-                    tint = Color(0xFF64748B),
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "Search products, brands and categories...",
-                    fontSize = 14.sp,
-                    color = Color(0xFF94A3B8),
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
 
         // Category Pills Scroll Row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .horizontalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                .padding(horizontal = 10.dp, vertical = 2.dp),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             categories.forEach { cat ->
                 val isSelected = cat == selectedCategory
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
+                        .clip(RoundedCornerShape(14.dp))
                         .background(
                             if (isSelected) Color(0xFFFEF08A) else Color(0xFF1E293B)
                         )
                         .clickable { onCategoryClick(cat) }
-                        .padding(horizontal = 14.dp, vertical = 6.dp)
+                        .padding(horizontal = 10.dp, vertical = 3.dp)
                 ) {
                     Text(
                         text = cat,
-                        fontSize = 12.sp,
+                        fontSize = 11.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                         color = if (isSelected) Color(0xFF0F172A) else Color(0xFFE2E8F0)
                     )
@@ -178,3 +176,4 @@ fun BzeadTopHeader(
         }
     }
 }
+

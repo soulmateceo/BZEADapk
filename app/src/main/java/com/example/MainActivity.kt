@@ -1,5 +1,6 @@
 package com.example
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -7,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,6 +16,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import com.bzead.india.data.BzeadRepository
+import com.bzead.india.theme.BzeadHeaderNavy
 import com.bzead.india.ui.components.BottomTab
 import com.bzead.india.ui.components.BzeadBottomNav
 import com.bzead.india.ui.screens.CartScreen
@@ -71,6 +77,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
+                val view = LocalView.current
+                if (!view.isInEditMode) {
+                    SideEffect {
+                        val window = (view.context as? Activity)?.window
+                        window?.statusBarColor = BzeadHeaderNavy.toArgb()
+                        window?.navigationBarColor = BzeadHeaderNavy.toArgb()
+                    }
+                }
+
                 var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.Splash) }
                 val snackbarHostState = remember { SnackbarHostState() }
                 val cartItems by BzeadRepository.cartItems.collectAsState()
@@ -90,7 +105,8 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = Color(0xFFF8FAFC),
+                    containerColor = BzeadHeaderNavy,
+                    contentWindowInsets = WindowInsets(0, 0, 0, 0),
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     bottomBar = {
                         if (currentBottomTab != null) {
@@ -146,9 +162,13 @@ class MainActivity : ComponentActivity() {
                                     CategoryScreen(
                                         onNavigateBack = { currentScreen = AppScreen.Home },
                                         onNavigateToProduct = { id -> currentScreen = AppScreen.ProductDetail(id) },
+                                        onNavigateToSearch = { currentScreen = AppScreen.Search },
+                                        onNavigateToCart = { currentScreen = AppScreen.Cart },
+                                        onNavigateToWishlist = { currentScreen = AppScreen.Wishlist },
                                         snackbarHostState = snackbarHostState
                                     )
                                 }
+
                                 is AppScreen.Cart -> {
                                     CartScreen(
                                         onNavigateToHome = { currentScreen = AppScreen.Home },

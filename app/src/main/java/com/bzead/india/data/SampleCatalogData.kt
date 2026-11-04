@@ -53,17 +53,139 @@ object SampleCatalogData {
         )
     )
 
-    val categories = listOf(
-        CategoryItem("cat_mobiles", "Mobiles", "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&q=80", "Hot Deals"),
-        CategoryItem("cat_fashion", "Fashion", "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&q=80", "Trending"),
-        CategoryItem("cat_beauty", "Beauty", "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80", "Popular"),
-        CategoryItem("cat_electronics", "Electronics", "https://images.unsplash.com/photo-1498049860654-af1a5c566876?w=300&q=80", "Top Rated"),
-        CategoryItem("cat_home", "Home", "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300&q=80", "Essentials"),
-        CategoryItem("cat_appliances", "Appliances", "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=300&q=80", "Best Price"),
-        CategoryItem("cat_grocery", "Grocery", "https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&q=80", "Daily Deals"),
-        CategoryItem("cat_footwear", "Footwear", "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80", "Styling"),
-        CategoryItem("cat_accessories", "Accessories", "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=300&q=80", "Gadgets")
+    val mainDepartments = listOf(
+        CategoryItem("cat_fashion_men", "Men", "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=300&q=80"),
+        CategoryItem("cat_fashion_women", "Women", "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=300&q=80"),
+        CategoryItem("cat_kids", "Kids & Toys", "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&q=80"),
+        CategoryItem("cat_electronics", "Electronics", "https://images.unsplash.com/photo-1498049860654-af1a5c566876?w=300&q=80"),
+        CategoryItem("cat_beauty", "Beauty & Health", "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&q=80"),
+        CategoryItem("cat_home", "Home & Kitchen", "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300&q=80"),
+        CategoryItem("cat_jewellery", "Jewellery & Acc.", "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=300&q=80"),
+        CategoryItem("cat_footwear", "Bags & Footwear", "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80"),
+        CategoryItem("cat_grocery", "Grocery & Food", "https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&q=80")
     )
+
+    val categories = mainDepartments
+
+    val departmentSectionsMap = mapOf(
+        "cat_fashion_men" to listOf(
+            SubCategorySection(
+                id = "sec_topwear",
+                title = "Top Wear",
+                items = listOf(
+                    SubCategoryItem("sub_1", "Summer T-Shirts", "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=200&q=80"),
+                    SubCategoryItem("sub_2", "Casual Shirts", "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=200&q=80"),
+                    SubCategoryItem("sub_3", "T-Shirt Combos", "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=200&q=80"),
+                    SubCategoryItem("sub_4", "Polo T-Shirts", "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=200&q=80"),
+                    SubCategoryItem("sub_5", "Jackets & Coats", "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&q=80"),
+                    SubCategoryItem("sub_6", "Formal Shirts", "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_bottomwear",
+                title = "Bottom Wear",
+                items = listOf(
+                    SubCategoryItem("sub_7", "Jeans", "https://images.unsplash.com/photo-1542272604-780c96856592?w=200&q=80"),
+                    SubCategoryItem("sub_8", "Cargos / Trousers", "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=200&q=80"),
+                    SubCategoryItem("sub_9", "Dhotis / Lungis", "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=200&q=80"),
+                    SubCategoryItem("sub_10", "Casual Shorts", "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=200&q=80"),
+                    SubCategoryItem("sub_11", "Track Pants", "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_ethnic",
+                title = "Ethnic Wear",
+                items = listOf(
+                    SubCategoryItem("sub_12", "Kurtas", "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&q=80"),
+                    SubCategoryItem("sub_13", "Kurta Sets", "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?w=200&q=80"),
+                    SubCategoryItem("sub_14", "Nehru Jacket", "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_innerwear",
+                title = "Innerwear & Loungewear",
+                items = listOf(
+                    SubCategoryItem("sub_15", "Vests", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200&q=80"),
+                    SubCategoryItem("sub_16", "Briefs", "https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=200&q=80"),
+                    SubCategoryItem("sub_17", "Boxers", "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=200&q=80")
+                )
+            )
+        ),
+        "cat_fashion_women" to listOf(
+            SubCategorySection(
+                id = "sec_ethnic_women",
+                title = "Ethnic & Fusion Wear",
+                items = listOf(
+                    SubCategoryItem("w_1", "Kurtas & Suits", "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=200&q=80"),
+                    SubCategoryItem("w_2", "Sarees & Blouses", "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=200&q=80"),
+                    SubCategoryItem("w_3", "Ethnic Dresses", "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=200&q=80"),
+                    SubCategoryItem("w_4", "Lehenga Cholis", "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_western_women",
+                title = "Western Wear",
+                items = listOf(
+                    SubCategoryItem("w_5", "Tops & Tees", "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=200&q=80"),
+                    SubCategoryItem("w_6", "Dresses & Jumpsuits", "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=200&q=80"),
+                    SubCategoryItem("w_7", "Jeans & Jeggings", "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=200&q=80"),
+                    SubCategoryItem("w_8", "Skirts & Shorts", "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=200&q=80")
+                )
+            )
+        ),
+        "cat_electronics" to listOf(
+            SubCategorySection(
+                id = "sec_mobiles_tech",
+                title = "Mobiles & Gadgets",
+                items = listOf(
+                    SubCategoryItem("e_1", "Smartphones", "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&q=80"),
+                    SubCategoryItem("e_2", "Feature Phones", "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=200&q=80"),
+                    SubCategoryItem("e_3", "Mobile Covers", "https://images.unsplash.com/photo-1541877944-ac82a091518a?w=200&q=80"),
+                    SubCategoryItem("e_4", "Power Banks", "https://images.unsplash.com/photo-1609592424074-325bdf378b8a?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_laptops_pc",
+                title = "Laptops & Computers",
+                items = listOf(
+                    SubCategoryItem("e_5", "Gaming Laptops", "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=200&q=80"),
+                    SubCategoryItem("e_6", "Desktops & All-in-One", "https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=200&q=80"),
+                    SubCategoryItem("e_7", "Computer Accessories", "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_audio",
+                title = "Audio & Smart Devices",
+                items = listOf(
+                    SubCategoryItem("e_8", "Wireless Earbuds", "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=200&q=80"),
+                    SubCategoryItem("e_9", "Noise Cancelling Headphones", "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80"),
+                    SubCategoryItem("e_10", "Smartwatches", "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80")
+                )
+            )
+        ),
+        "cat_beauty" to listOf(
+            SubCategorySection(
+                id = "sec_skincare",
+                title = "Skincare",
+                items = listOf(
+                    SubCategoryItem("b_1", "Face Wash", "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&q=80"),
+                    SubCategoryItem("b_2", "Sunscreen SPF 50", "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=200&q=80"),
+                    SubCategoryItem("b_3", "Face Serums & Oils", "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200&q=80"),
+                    SubCategoryItem("b_4", "Moisturizers & Creams", "https://images.unsplash.com/photo-1608248597349-9069d2d80d28?w=200&q=80")
+                )
+            ),
+            SubCategorySection(
+                id = "sec_haircare",
+                title = "Haircare & Fragrance",
+                items = listOf(
+                    SubCategoryItem("b_5", "Shampoo & Conditioners", "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=200&q=80"),
+                    SubCategoryItem("b_6", "Hair Oils & Masks", "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=200&q=80"),
+                    SubCategoryItem("b_7", "Perfumes & Deodorants", "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=200&q=80")
+                )
+            )
+        )
+    )
+
 
     val sampleReviews = listOf(
         Review("Amit K.", 5, "Outstanding sound quality and deep bass! Delivered to Delhi in 2 days.", "2 days ago", true),

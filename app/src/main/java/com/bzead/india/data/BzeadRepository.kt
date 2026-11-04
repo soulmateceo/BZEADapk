@@ -11,7 +11,6 @@ import com.bzead.india.model.ProductVariant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.UUID
 
 object BzeadRepository {
 
@@ -36,7 +35,14 @@ object BzeadRepository {
     private val _allProducts = MutableStateFlow<List<Product>>(SampleCatalogData.products)
     val allProducts: StateFlow<List<Product>> = _allProducts.asStateFlow()
 
+    private val _mainDepartments = MutableStateFlow<List<CategoryItem>>(SampleCatalogData.mainDepartments)
+    val mainDepartments: StateFlow<List<CategoryItem>> = _mainDepartments.asStateFlow()
+
+    private val _categorySectionsMap = MutableStateFlow<Map<String, List<SubCategorySection>>>(SampleCatalogData.departmentSectionsMap)
+    val categorySectionsMap: StateFlow<Map<String, List<SubCategorySection>>> = _categorySectionsMap.asStateFlow()
+
     val allCategories: List<CategoryItem> get() = _liveCategories.value
+
 
     private val _isHomeLoading = MutableStateFlow(false)
     val isHomeLoading: StateFlow<Boolean> = _isHomeLoading.asStateFlow()
@@ -129,15 +135,37 @@ object BzeadRepository {
     )
     val recentSearches: StateFlow<List<String>> = _recentSearches.asStateFlow()
 
-    fun refreshHomeContent() {
-        _heroBanners.value = SampleCatalogData.liveHeroBanners
-        _adBanners.value = SampleCatalogData.liveAdBanners
-        _liveCategories.value = SampleCatalogData.categories
-        _featuredProducts.value = SampleCatalogData.products.filter { it.isFeatured }
-        _trendingProducts.value = SampleCatalogData.products.filter { it.isTrending }
-        _hotDealsProducts.value = SampleCatalogData.products.filter { it.isDeal }
-        _allProducts.value = SampleCatalogData.products
+    suspend fun refreshHomeContent() {
+        _isHomeLoading.value = true
+        try {
+            val (hero, ad) = SupabaseClient.fetchBanners()
+            if (hero.isNotEmpty()) _heroBanners.value = hero
+            if (ad.isNotEmpty()) _adBanners.value = ad
+
+            val (mains, tree) = SupabaseClient.fetchCategoryTree()
+            if (mains.isNotEmpty()) _mainDepartments.value = mains
+            if (tree.isNotEmpty()) _categorySectionsMap.value = tree
+
+            val cats = SupabaseClient.fetchCategories()
+            if (cats.isNotEmpty()) _liveCategories.value = cats
+
+            val prods = SupabaseClient.fetchProducts()
+            if (prods.isNotEmpty()) {
+                _allProducts.value = prods
+                val feat = prods.filter { it.isFeatured }
+                if (feat.isNotEmpty()) _featuredProducts.value = feat
+                val trend = prods.filter { it.isTrending }
+                if (trend.isNotEmpty()) _trendingProducts.value = trend
+                val deals = prods.filter { it.isDeal }
+                if (deals.isNotEmpty()) _hotDealsProducts.value = deals
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            _isHomeLoading.value = false
+        }
     }
+
 
     fun syncCartWithBackend() {
         // Keeps cart synced

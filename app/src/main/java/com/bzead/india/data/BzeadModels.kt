@@ -23,8 +23,25 @@ data class CategoryItem(
     val name: String,
     val iconUrl: String = "",
     val tag: String = "Popular",
-    val isLive: Boolean = true
+    val isLive: Boolean = true,
+    val parentId: String? = null,
+    val level: Int = 1
 )
+
+data class SubCategoryItem(
+    val id: String,
+    val name: String,
+    val iconUrl: String = "",
+    val parentId: String = "",
+    val slug: String = ""
+)
+
+data class SubCategorySection(
+    val id: String,
+    val title: String,
+    val items: List<SubCategoryItem> = emptyList()
+)
+
 
 data class Product(
     val id: String,

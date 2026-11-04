@@ -48,7 +48,6 @@ import com.bzead.india.ui.components.CategoriesGrid3Col
 import com.bzead.india.ui.components.SectionHeaderWithSponsored
 import com.bzead.india.ui.components.WebHeroCarousel
 import com.bzead.india.ui.components.WebProductCard
-import com.bzead.india.ui.components.WelcomeBackBar
 
 @Composable
 fun HomeScreen(
@@ -75,8 +74,6 @@ fun HomeScreen(
 
     val cartItems by BzeadRepository.cartItems.collectAsState()
     val wishlistIds by BzeadRepository.wishlistProductIds.collectAsState()
-    val isLoggedIn by BzeadRepository.isLoggedIn.collectAsState()
-    val userName by BzeadRepository.userName.collectAsState()
 
     val cartCount = cartItems.sumOf { it.quantity }
     val wishlistCount = wishlistIds.size
@@ -101,7 +98,7 @@ fun HomeScreen(
             .background(Color(0xFFF8FAFC))
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            // Dark navy header continuing seamlessly behind the status bar
+            // Dark navy header continuing seamlessly behind status bar
             BzeadTopHeader(
                 onSearchClick = onNavigateToSearch,
                 onCartClick = onNavigateToCart,
@@ -123,29 +120,26 @@ fun HomeScreen(
                     .weight(1f),
                 contentPadding = PaddingValues(bottom = 72.dp)
             ) {
-                // 1. Single Hero Carousel (Auto-swiping mode, dot indicators, side chevrons, ZERO overlaid text)
+                // Top Header Extension Section: Hero Carousel on dark header navy background (No welcome bar)
                 item {
-                    WebHeroCarousel(
-                        banners = effectiveHeroBanners,
-                        onBannerClick = { banner ->
-                            if (!banner.link.isNullOrBlank()) {
-                                onNavigateToSearch()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(BzeadHeaderNavy)
+                            .padding(bottom = 8.dp)
+                    ) {
+                        WebHeroCarousel(
+                            banners = effectiveHeroBanners,
+                            onBannerClick = { banner ->
+                                if (!banner.link.isNullOrBlank()) {
+                                    onNavigateToSearch()
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
 
-                // 2. Welcome Back Strip
-                item {
-                    WelcomeBackBar(
-                        isLoggedIn = isLoggedIn,
-                        userName = userName ?: "Rahul Sharma",
-                        onLoginClick = onNavigateToLogin,
-                        onSignUpClick = onNavigateToSignup
-                    )
-                }
-
-                // 3. 3-Column Circular Categories Grid
+                // 3-Column Circular Categories Grid
                 item {
                     CategoriesGrid3Col(
                         categories = effectiveCategories,
@@ -153,7 +147,7 @@ fun HomeScreen(
                     )
                 }
 
-                // 4. Featured Products Section (Header with SPONSORED badge + See More)
+                // Featured Products Section
                 item {
                     SectionHeaderWithSponsored(
                         title = "Featured Products",
@@ -194,7 +188,7 @@ fun HomeScreen(
                     }
                 }
 
-                // 5. Interleaved Ad Banner (Mamaearth Sunscreen from ad_slot = 2 or first ad)
+                // Interleaved Ad Banner
                 item {
                     val adBanner = effectiveAdBanners.firstOrNull { it.adSlot == 2 } ?: effectiveAdBanners.firstOrNull()
                     AdBannerBetweenSections(
@@ -203,7 +197,7 @@ fun HomeScreen(
                     )
                 }
 
-                // 6. Trending Now Section (Trending Now 📈)
+                // Trending Now Section
                 item {
                     SectionHeaderWithSponsored(
                         title = "Trending Now \uD83D\uDCC8",
@@ -244,7 +238,7 @@ fun HomeScreen(
                     }
                 }
 
-                // 7. Hot Deals Section (Hot Deals 🔥)
+                // Hot Deals Section
                 item {
                     SectionHeaderWithSponsored(
                         title = "Hot Deals \uD83D\uDD25",
